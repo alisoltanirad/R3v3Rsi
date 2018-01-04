@@ -1,0 +1,42 @@
+#header {
+    text-align: center;
+}
+
+#row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    max-width: 30%;
+    position: relative;
+    flex: 30%;
+    -ms-flex: 30%;
+    -webkit-flex: 30%;
+}
+
+#gameboard {
+    max-width: 40%;
+    position: relative;
+    flex: 40%;
+    -ms-flex: 40%;
+    -webkit-flex: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    border: 4px solid black;
+    border-radius: 4px;
+    background-color: black;
+}
+
+.pieces {
+    max-width: 12.5%;
+    position: relative;
+    flex: 12.5%;
+    -ms-flex: 12.5%;
+    -webkit-flex: 12.5%;
+}
+
+.pieces img {
+    width: 98%;
+    height: 98%;
+}
