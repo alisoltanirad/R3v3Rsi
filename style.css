@@ -37,6 +37,23 @@
 }
 
 .pieces img {
-    width: 98%;
-    height: 98%;
+    width: 100%;
+    height: auto;
+}
+
+.empty {
+    content: url("empty.jpg");
+}
+
+.black {
+    content: url("black.jpg");
+}
+
+.white {
+    content: url("white.jpg");
+}
+
+.valid {
+    content: url("valid.jpg");
+    cursor: pointer;
 }
