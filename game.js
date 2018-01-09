@@ -1,19 +1,61 @@
 $(document).ready(function(){
     
     function getMoves(board, color){
-        return 0;
+        return;
     }
     
     function makeMove(board, move, color){
-        return 0;
+        return;
     }
     
-    function score(board, color){
-        return 0;
+    function getScore(board){
+        return;
+    }
+    
+    function finish(){
+        var score = getScore(board);
+        if (score[0] == 1){
+            window.alert("You Win! :)\n\n" + 
+                        "You got " + score[1] + " scores," +
+                        "The opponent got " + score[2] + " scores.");
+        } else {
+        window.alert("You lose! :(\n\n" + 
+                    "You got " + score[1] + " scores," +
+                    "The opponent got " + score[2] + " scores.");
+        }
+        location.reload();
+    }
+    
+    function play(){
+        
+        move = -1;
+        var moves = getMoves(board, -1);
+        
+        if (moves.length == 0){
+            
+            moves = getMoves(board, 1);
+            
+            if (moves.length == 0){
+                finish();
+            } else {
+                return;
+            }
+            
+        } else {
+            move = Math.floor(Math.random() * moves.length);
+            makeMove(board, move, -1);
+            
+            moves = getMoves(board, 1);
+            if (moves.length == 0) {
+                play();
+            }
+        }
+        return;
     }
     
     var board=[];
     var imgs = document.getElementsByTagName("img");
+    
     for (var i=0; i<19; i++){
         $(imgs[i]).addClass("empty");
         board.push(0);
@@ -51,7 +93,15 @@ $(document).ready(function(){
         board.push(0);
     };
     
+    var move = -1;
     
-
+    $("img").click(function(){
+        if ($(this).attr("class") == "valid"){
+            move = Number($(this).attr("alt"));
+            makeMove(board, move, 1);
+            play();
+        }
+    });
+    
 });
 
