@@ -9,7 +9,22 @@ $(document).ready(function(){
     }
     
     function getScore(board){
-        return;
+        var black=0;
+        var white=0;
+        for (var i=0; i<64; i++){
+            if (board[i] == 1){
+                black++;
+            } else if (board[i] == -1) {
+                white++;
+            }
+        }
+        var winner = 0;
+        if (black > white){
+            winner = 1;
+        } else if (white > black){
+            winner = -1;
+        }
+        return [winner, black, white];
     }
     
     function finish(){
@@ -18,10 +33,12 @@ $(document).ready(function(){
             window.alert("You Win! :)\n\n" + 
                         "You got " + score[1] + " scores," +
                         "The opponent got " + score[2] + " scores.");
+        } else if (score[0] == -1){
+            window.alert("You lose! :(\n\n" + 
+                        "You got " + score[1] + " scores," +
+                        "The opponent got " + score[2] + " scores.");
         } else {
-        window.alert("You lose! :(\n\n" + 
-                    "You got " + score[1] + " scores," +
-                    "The opponent got " + score[2] + " scores.");
+            window.alert("Both players got " + score[1] + " scores.");
         }
         location.reload();
     }
