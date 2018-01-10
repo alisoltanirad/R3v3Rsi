@@ -14,6 +14,18 @@ $(document).ready(function(){
     }
     
     function northeast(board, position, color){
+        var limit = Math.min((Math.floor(position/8)+1),(((Math.floor(position/8)+1)*8)-position));
+        if ((limit > 2) && ((board[position] - 7) == (-color))){
+            var j = (position - 7);
+            for (var k=2; k<limit; k++){
+                j -= 7;
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
         return 0;
     }
     
@@ -32,6 +44,18 @@ $(document).ready(function(){
     }
     
     function southeast(board, position, color){
+        var limit = Math.min((Math.floor(63-position)+1),(((Math.floor(position/8)+1)*8)-position));
+        if ((limit > 2) && ((board[position] + 9) == (-color))){
+            var j = (position + 9);
+            for (var k=2; k<limit; k++){
+                j += 9;
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
         return 0;
     }
     
@@ -49,6 +73,18 @@ $(document).ready(function(){
     }
     
     function southwest(board, position, color){
+        var limit = Math.min((Math.floor(63-position)+1),((position-(position%8))+1));
+        if ((limit > 2) && ((board[position] + 7) == (-color))){
+            var j = (position + 7);
+            for (var k=2; k<limit; k++){
+                j += 7;
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
         return 0;
     }
     
@@ -67,6 +103,18 @@ $(document).ready(function(){
     }
     
     function northwest(board, position, color){
+        var limit = Math.min((Math.floor(position/8)+1),((position-(position%8))+1));
+        if ((limit > 2) && ((board[position] - 9) == (-color))){
+            var j = (position - 9);
+            for (var k=2; k<limit; k++){
+                j -= 9;
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
         return 0;
     }
     
