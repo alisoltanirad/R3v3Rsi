@@ -1,5 +1,75 @@
 $(document).ready(function(){
     
+    function north(board, position, color){
+        if ((board[position] > 15) && ((board[position] - 8) == (-color))){
+            for (var j=(position - 16); j>=0; j=(j-8)){
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    function northeast(board, position, color){
+        return 0;
+    }
+    
+    function east(board, position, color){
+        var limit = ((Math.floor(position / 8) + 1) * 8);
+        if (((limit - (board[position])) > 2) && ((board[position] + 1) == (-color))){
+            for (var j=(position + 2); j<limit; j++){
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    function southeast(board, position, color){
+        return 0;
+    }
+    
+    function south(board, position, color){
+        if ((board[position] < 48) && ((board[position] + 8) == (-color))){
+            for (var j=(position + 16); j<64; j=(j+8)){
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    function southwest(board, position, color){
+        return 0;
+    }
+    
+    function west(board, position, color){
+        var limit = (position - (position % 8));
+        if (((board[position] - limit) >= 2) && ((board[position] - 1) == (-color))){
+            for (var j=(position - 2); j>=limit; j--){
+                if (board[j] == 0){
+                    return 0;
+                } else if (board[j] == color){
+                    return 1;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    function northwest(board, position, color){
+        return 0;
+    }
+    
     function getMoves(board, color){
         return;
     }
