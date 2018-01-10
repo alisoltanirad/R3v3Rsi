@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
     function north(board, position, color){
-        if ((board[position] > 15) && ((board[position] - 8) == (-color))){
+        if ((position > 15) && (board[position - 8] == (-color))){
             for (var j=(position - 16); j>=0; j=(j-8)){
                 if (board[j] == 0){
                     return 0;
@@ -15,7 +15,7 @@ $(document).ready(function(){
     
     function northeast(board, position, color){
         var limit = Math.min((Math.floor(position/8)+1),(((Math.floor(position/8)+1)*8)-position));
-        if ((limit > 2) && ((board[position] - 7) == (-color))){
+        if ((limit > 2) && (board[position - 7] == (-color))){
             var j = (position - 7);
             for (var k=2; k<limit; k++){
                 j -= 7;
@@ -31,7 +31,7 @@ $(document).ready(function(){
     
     function east(board, position, color){
         var limit = ((Math.floor(position / 8) + 1) * 8);
-        if (((limit - (board[position])) > 2) && ((board[position] + 1) == (-color))){
+        if (((limit - position) > 2) && (board[position + 1] == (-color))){
             for (var j=(position + 2); j<limit; j++){
                 if (board[j] == 0){
                     return 0;
@@ -45,7 +45,7 @@ $(document).ready(function(){
     
     function southeast(board, position, color){
         var limit = Math.min((Math.floor(63-position)+1),(((Math.floor(position/8)+1)*8)-position));
-        if ((limit > 2) && ((board[position] + 9) == (-color))){
+        if ((limit > 2) && (board[position + 9] == (-color))){
             var j = (position + 9);
             for (var k=2; k<limit; k++){
                 j += 9;
@@ -60,7 +60,7 @@ $(document).ready(function(){
     }
     
     function south(board, position, color){
-        if ((board[position] < 48) && ((board[position] + 8) == (-color))){
+        if ((position < 48) && (board[position + 8] == (-color))){
             for (var j=(position + 16); j<64; j=(j+8)){
                 if (board[j] == 0){
                     return 0;
@@ -74,7 +74,7 @@ $(document).ready(function(){
     
     function southwest(board, position, color){
         var limit = Math.min((Math.floor(63-position)+1),((position-(position%8))+1));
-        if ((limit > 2) && ((board[position] + 7) == (-color))){
+        if ((limit > 2) && (board[position + 7] == (-color))){
             var j = (position + 7);
             for (var k=2; k<limit; k++){
                 j += 7;
@@ -90,7 +90,7 @@ $(document).ready(function(){
     
     function west(board, position, color){
         var limit = (position - (position % 8));
-        if (((board[position] - limit) >= 2) && ((board[position] - 1) == (-color))){
+        if (((position - limit) >= 2) && (board[position - 1] == (-color))){
             for (var j=(position - 2); j>=limit; j--){
                 if (board[j] == 0){
                     return 0;
@@ -104,7 +104,7 @@ $(document).ready(function(){
     
     function northwest(board, position, color){
         var limit = Math.min((Math.floor(position/8)+1),((position-(position%8))+1));
-        if ((limit > 2) && ((board[position] - 9) == (-color))){
+        if ((limit > 2) && (board[position - 9] == (-color))){
             var j = (position - 9);
             for (var k=2; k<limit; k++){
                 j -= 9;
@@ -155,21 +155,11 @@ $(document).ready(function(){
     function changeColor(board, iter, color){
         board[iter] = color;
         if (color == 1){
-            if ($(imgs[q]).attr("class") == "empty"){
-                $(imgs[iter]).removeClass("empty");
-                $(imgs[iter]).addClass("black");
-            } else {
-                $(imgs[iter]).removeClass("white");
-                $(imgs[iter]).addClass("black");
-            }
+            $(imgs[iter]).removeClass("white");
+            $(imgs[iter]).addClass("black");
         } else {
-            if ($(imgs[q]).attr("class") == "empty"){
-                $(imgs[iter]).removeClass("empty");
-                $(imgs[iter]).addClass("white");
-            } else {
-                $(imgs[iter]).removeClass("black");
-                $(imgs[iter]).addClass("white");
-            }
+            $(imgs[iter]).removeClass("black");
+            $(imgs[iter]).addClass("white");
         }
         return;
     }
@@ -178,10 +168,13 @@ $(document).ready(function(){
         if (color == 1){
             for (var q=0; q<64; q++){
                 if ($(imgs[q]).attr("class") == "valid"){
-                    $(imgs[iter]).removeClass("valid");
-                    $(imgs[iter]).addClass("empty");
+                    $(imgs[q]).removeClass("valid");
+                    $(imgs[q]).addClass("empty");
                 }
             }
+            $(imgs[move]).addClass("black");
+        } else {
+            $(imgs[move]).addClass("white");
         }
         board[move] = color;
         
@@ -281,11 +274,12 @@ $(document).ready(function(){
     }
     
     function validCSS(board){
+        
         var validmovesCSS = getMoves(board, 1);
         var x;
         for (x in validmovesCSS){
-            $(imgs[iter]).removeClass("empty");
-            $(imgs[iter]).addClass("valid");
+            $(imgs[validmovesCSS[x]]).removeClass("empty");
+            $(imgs[validmovesCSS[x]]).addClass("valid");
         }
         return;
     }
@@ -296,7 +290,7 @@ $(document).ready(function(){
         var moves = getMoves(board, -1);
         
         if (moves.length == 0){
-            
+            moves = [];
             moves = getMoves(board, 1);
             
             if (moves.length == 0){
@@ -308,8 +302,8 @@ $(document).ready(function(){
             
         } else {
             move = Math.floor(Math.random() * moves.length);
-            makeMove(board, move, -1);
-            
+            makeMove(board, moves[move], -1);
+            moves = [];
             moves = getMoves(board, 1);
             if (moves.length == 0) {
                 play();
