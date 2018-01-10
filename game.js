@@ -119,10 +119,129 @@ $(document).ready(function(){
     }
     
     function getMoves(board, color){
+        var validmoves = [];
+        for (var p=0; p<64; p++){
+            if (board[p] == 0){
+                if (north(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (northeast(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (east(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (southeast(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (south(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (southwest(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (west(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                } else if (northwest(board, p, color) == 1){
+                    validmoves.push(p);
+                    continue;
+                }
+            }
+        }
+        return validmoves;
+    }
+    
+    function changeColor(board, iter, color){
+        board[iter] = color;
+        if (color == 1){
+            if ($(imgs[q]).attr("class") == "empty"){
+                $(imgs[iter]).removeClass("empty");
+                $(imgs[iter]).addClass("black");
+            } else {
+                $(imgs[iter]).removeClass("white");
+                $(imgs[iter]).addClass("black");
+            }
+        } else {
+            if ($(imgs[q]).attr("class") == "empty"){
+                $(imgs[iter]).removeClass("empty");
+                $(imgs[iter]).addClass("white");
+            } else {
+                $(imgs[iter]).removeClass("black");
+                $(imgs[iter]).addClass("white");
+            }
+        }
         return;
     }
     
     function makeMove(board, move, color){
+        if (color == 1){
+            for (var q=0; q<64; q++){
+                if ($(imgs[q]).attr("class") == "valid"){
+                    $(imgs[iter]).removeClass("valid");
+                    $(imgs[iter]).addClass("empty");
+                }
+            }
+        }
+        board[move] = color;
+        
+        var iter = 0;
+        if (north(board, move, color) == 1){
+            iter = (move - 8);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter -= 8;
+            }
+        }
+        if (northeast(board, move, color) == 1){
+            iter = (move - 7);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter -= 7;
+            }
+        }
+        if (east(board, move, color) == 1){
+            iter = (move + 1);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter += 1;
+            }
+        }
+        if (southeast(board, move, color) == 1){
+            iter = (move + 9);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter += 9;
+            }
+        }
+        if (south(board, move, color) == 1){
+            iter = (move + 8);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter += 8;
+            }
+        }
+        if (southwest(board, move, color) == 1){
+            iter = (move + 7);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter += 7;
+            }
+        }
+        if (west(board, move, color) == 1){
+            iter = (move - 1);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter -= 1;
+            }
+        }
+        if (northwest(board, move, color) == 1){
+            iter = (move - 9);
+            while (board[iter] == -color){
+                changeColor(board, iter, color);
+                iter -= 9;
+            }
+        }
         return;
     }
     
@@ -161,6 +280,16 @@ $(document).ready(function(){
         location.reload();
     }
     
+    function validCSS(board){
+        var validmovesCSS = getMoves(board, 1);
+        var x;
+        for (x in validmovesCSS){
+            $(imgs[iter]).removeClass("empty");
+            $(imgs[iter]).addClass("valid");
+        }
+        return;
+    }
+    
     function play(){
         
         move = -1;
@@ -173,6 +302,7 @@ $(document).ready(function(){
             if (moves.length == 0){
                 finish();
             } else {
+                validCSS(board);
                 return;
             }
             
@@ -183,6 +313,8 @@ $(document).ready(function(){
             moves = getMoves(board, 1);
             if (moves.length == 0) {
                 play();
+            } else {
+                validCSS(board);
             }
         }
         return;
