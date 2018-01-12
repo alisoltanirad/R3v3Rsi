@@ -364,5 +364,8 @@ $(document).ready(function(){
         }
     });
     
+    $("#newgame").click(function(){
+       location.reload(); 
+    });
+    
 });
-
