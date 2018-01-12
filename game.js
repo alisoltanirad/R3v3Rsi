@@ -73,7 +73,7 @@ $(document).ready(function(){
     }
     
     function southwest(board, position, color){
-        var limit = Math.min((Math.floor((63-position)/8)+1),((position-(position%8))+1));
+        var limit = Math.min((Math.floor((63-position)/8)+1),((position%8)+1));
         if ((limit > 2) && (board[position + 7] == (-color))){
             var j = (position + 7);
             for (var k=2; k<limit; k++){
@@ -103,7 +103,7 @@ $(document).ready(function(){
     }
     
     function northwest(board, position, color){
-        var limit = Math.min((Math.floor(position/8)+1),((position-(position%8))+1));
+        var limit = Math.min((Math.floor(position/8)+1),((position%8)+1));
         if ((limit > 2) && (board[position - 9] == (-color))){
             var j = (position - 9);
             for (var k=2; k<limit; k++){
