@@ -4,6 +4,42 @@ body {
 
 #header {
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#headerrow {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 40%;
+    position: relative;
+    flex: 40%;
+    -ms-flex: 40%;
+    -webkit-flex: 40%;
+}
+
+.headercol {
+    max-width: 30%;
+    position: relative;
+    flex: 30%;
+    -ms-flex: 30%;
+    -webkit-flex: 30%;
+}
+
+#headercolleft {
+    max-width: 70%;
+    position: relative;
+    flex: 70%;
+    -ms-flex: 70%;
+    -webkit-flex: 70%;
+}
+
+#headercolright {
+    max-width: 30%;
+    position: relative;
+    flex: 30%;
+    -ms-flex: 30%;
+    -webkit-flex: 30%;
 }
 
 #row {
