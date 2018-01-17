@@ -4,19 +4,25 @@
 #include <stdlib.h>
 using namespace std;
 
-void arraycopy(int (&array1)[], int (&array2)[], int n){
-    for (int c=0; c<n; c++){
+void littlearraycopy(int (&array1)[3], int (&array2)[3]){
+    for (int c=0; c<3; c++){
         array1[c] = array2[c];
     }
 }
 
-void delarray(int (&array)[]){
+void arraycopy(int (&array1)[64], int (&array2)[64]){
+    for (int c=0; c<64; c++){
+        array1[c] = array2[c];
+    }
+}
+
+void delarray(int (&array)[64]){
     for (int d=0; d<64; d++){
         array[d] = 0;
     }
 }
 
-int moveslength(int array[]){
+int moveslength(int array[64]){
     int moveslength = 0;
     while (array[moveslength] != -1){
         moveslength++;
@@ -32,7 +38,7 @@ void makeBoard(int (&board)[64]){
     board[35] = board[28] = 1;
 }
 
-void printboard(int board[]){
+void printboard(int board[64]){
 
     cout << "" << endl;
     cout << "  " << "01234567" << endl;
@@ -134,7 +140,7 @@ void printboard(int board[]){
     cout << "" << endl;
 }
 
-int north(int board[], int position, int color){
+int north(int board[64], int position, int color){
     if ((position > 15) && (board[position - 8] == (-color))){
         for (int j=(position - 16); j>=0; j=(j-8)){
             if (board[j] == 0){
@@ -147,7 +153,7 @@ int north(int board[], int position, int color){
     return 0;
 }
 
-int northeast(int board[], int position, int color){
+int northeast(int board[64], int position, int color){
     int limit = min((floor(position/8)+1),(((floor(position/8)+1)*8)-position));
     if ((limit > 2) && (board[position - 7] == (-color))){
         int j = (position - 7);
@@ -163,7 +169,7 @@ int northeast(int board[], int position, int color){
     return 0;
 }
 
-int east(int board[], int position, int color){
+int east(int board[64], int position, int color){
     int limit = ((floor(position / 8) + 1) * 8);
     if (((limit - position) > 2) && (board[position + 1] == (-color))){
         for (int j=(position + 2); j<limit; j++){
@@ -177,7 +183,7 @@ int east(int board[], int position, int color){
     return 0;
 }
 
-int southeast(int board, int position, int color){
+int southeast(int board[64], int position, int color){
     int limit = min((floor(63-position)+1),(((floor(position/8)+1)*8)-position));
     if ((limit > 2) && (board[position + 9] == (-color))){
         int j = (position + 9);
@@ -193,7 +199,7 @@ int southeast(int board, int position, int color){
     return 0;
 }
 
-int south(int board, int position, int color){
+int south(int board[64], int position, int color){
     if ((position < 48) && (board[position + 8] == (-color))){
         for (int j=(position + 16); j<64; j=(j+8)){
             if (board[j] == 0){
@@ -206,7 +212,7 @@ int south(int board, int position, int color){
     return 0;
 }
 
-int southwest(int board[], int position, int color){
+int southwest(int board[64], int position, int color){
     int limit = min((floor((63-position)/8)+1),((position%8)+1));
     if ((limit > 2) && (board[position + 7] == (-color))){
         int j = (position + 7);
@@ -222,7 +228,7 @@ int southwest(int board[], int position, int color){
     return 0;
 }
 
-int west(int board[], int position, int color){
+int west(int board[64], int position, int color){
     int limit = (position - (position % 8));
     if (((position - limit) >= 2) && (board[position - 1] == (-color))){
         for (int j=(position - 2); j>=limit; j--){
@@ -236,7 +242,7 @@ int west(int board[], int position, int color){
     return 0;
 }
 
-int northwest(int board[], int position, int color){
+int northwest(int board[64], int position, int color){
     int limit = min((floor(position/8)+1),((position%8)+1));
     if ((limit > 2) && (board[position - 9] == (-color))){
         int j = (position - 9);
@@ -252,7 +258,7 @@ int northwest(int board[], int position, int color){
     return 0;
 }
 
-int* getMoves(int board[], int color){
+int* getMoves(int board[64], int color){
     int validmoves[64];
     int iter = 0;
     for (int p=0; p<64; p++){
@@ -299,11 +305,11 @@ int* getMoves(int board[], int color){
     return validmoves;
 }
 
-void changeColor(int (&board)[], int iter, int color){
+void changeColor(int (&board)[64], int iter, int color){
     board[iter] = color;
 }
 
-void makeMove(int (&board)[], int move, int color){
+void makeMove(int (&board)[64], int move, int color){
 
     board[move] = color;
 
@@ -366,7 +372,7 @@ void makeMove(int (&board)[], int move, int color){
     }
 }
 
-int* getScore(int board[]){
+int* getScore(int board[64]){
     int black=0;
     int white=0;
     for (int i=0; i<64; i++){
@@ -388,7 +394,7 @@ int* getScore(int board[]){
 
 void finish(){
     int score[3];
-    arraycopy(score, getScore(board), 3);
+    littlearraycopy(score, getScore(board));
     if (score[0] == 1){
         cout << "You Win! :)\n" <<
                     "You got " << score[1] << " scores," <<
@@ -414,12 +420,12 @@ void play(){
 
     while (true){
 
-        arraycopy(moves, getMoves(board, turn, 64);
+        arraycopy(moves, getMoves(board, turn);
 
         if (moveslength(moves) == 0){
             turn = -turn;
             delarray(moves);
-            arraycopy(moves, getMoves(board, turn, 64);
+            arraycopy(moves, getMoves(board, turn);
                 if (moveslength(moves) == 0){
                     finish();
                 }
