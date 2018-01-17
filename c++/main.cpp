@@ -1,5 +1,5 @@
 #include<iostream>
-#include<math.h>
+#include<cmath>
 #include<algorithm>
 #include <stdlib.h>
 using namespace std;
@@ -30,6 +30,108 @@ void makeBoard(int (&board)[64]){
     }
     board[27] = board[36] = -1;
     board[35] = board[28] = 1;
+}
+
+void printboard(int board[]){
+
+    cout << "" << endl;
+    cout << "  " << "01234567" << endl;
+
+    cout << "0 ";
+    for (int i=0; i<8; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "1 ";
+    for (int i=8; i<16; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "2 ";
+    for (int i=16; i<24; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "3 ";
+    for (int i=24; i<32; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "4 ";
+    for (int i=32; i<40; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "5 ";
+    for (int i=40; i<48; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "6 ";
+    for (int i=48; i<56; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
+
+    cout << "7 ";
+    for (int i=56; i<64; i++){
+        if (board[i] == 0){
+            cout << "-";
+        } else if (board[i] == 1){
+            cout << "X";
+        } else {
+            cout << "O";
+        }
+    }
+    cout << "" << endl;
 }
 
 int north(int board[], int position, int color){
@@ -190,7 +292,10 @@ int* getMoves(int board[], int color){
             }
         }
     }
-    validmoves[iter] = -1;
+    while (iter < 64){
+        validmoves[iter] = -1;
+        iter++;
+    }
     return validmoves;
 }
 
@@ -319,6 +424,7 @@ void play(){
                     finish();
                 }
         } else {
+            printboard(board);
             if (turn = 1){
                 int a, b;
                 cin >> a >> b;
