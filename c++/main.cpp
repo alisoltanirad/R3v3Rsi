@@ -1,12 +1,27 @@
 #include<iostream>
 #include<math.h>
 #include<algorithm>
+#include <stdlib.h>
 using namespace std;
 
 void arraycopy(int (&array1)[], int (&array2)[], int n){
     for (int c=0; c<n; c++){
         array1[c] = array2[c];
     }
+}
+
+void delarray(int (&array)[]){
+    for (int d=0; d<64; d++){
+        array[d] = 0;
+    }
+}
+
+int moveslength(int array[]){
+    int moveslength = 0;
+    while (array[moveslength] != -1){
+        moveslength++;
+    }
+    return moveslength;
 }
 
 void makeBoard(int (&board)[64]){
@@ -283,10 +298,53 @@ void finish(){
     exit(0);
 }
 
-int main(){
+void play(){
 
     int board[64];
     makeBoard(board);
+
+    int move = -1;
+    int turn = 1;
+    int moves[64];
+
+    while (true){
+
+        arraycopy(moves, getMoves(board, turn, 64);
+
+        if (moveslength(moves) == 0){
+            turn = -turn;
+            delarray(moves);
+            arraycopy(moves, getMoves(board, turn, 64);
+                if (moveslength(moves) == 0){
+                    finish();
+                }
+        } else {
+            if (turn = 1){
+                int a, b;
+                cin >> a >> b;
+                move = ((b * 8) + a);
+                int iter = 0;
+                while (moves[iter] != -1){
+                    if (move == moves[iter]){
+                        makeMove(board, move, turn);
+                        turn = -turn;
+                        break;
+                    }
+                    iter++;
+                }
+            } else {
+                move = floor(rand() * moveslength(moves));
+                makeMove(board, move, turn);
+                turn = -turn;
+            }
+        }
+
+    }
+}
+
+int main(){
+
+    play();
 
     return 0;
 }
