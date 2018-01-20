@@ -314,12 +314,12 @@ $(document).ready(function(){
         var edges = [2,3,4,5,16,23,24,31,
                      32,39,40,47,58,59,60,61];
         for (var i=0; i<64; i++){
-            if (i in corners){
-                sum += tempboardsum[i] * 30;
-            } else if (i in buffers){
-                sum += tempboardsum[i] * -5;
-            } else if (i in edges){
-                sum += tempboardsum[i] * 5;
+            if (corners.includes(i)){
+                sum += tempboardsum[i] * 24;
+            } else if (buffers.includes(i)){
+                sum += tempboardsum[i] * -4;
+            } else if (edges.includes(i)){
+                sum += tempboardsum[i] * 3;
             } else {
                 sum += tempboardsum[i];
             }
@@ -353,7 +353,7 @@ $(document).ready(function(){
         var moves = getMoves(tempboard, color);
         var moveslength = moves.length;
         if (moveslength == 0){
-            moves = getMoves(tempboard, color);
+            moves = getMoves(tempboard, -color);
             moveslength = moves.length;
             if (moveslength == 0){
                 return (getSum(tempboard) * color);
@@ -385,21 +385,21 @@ $(document).ready(function(){
     
     function getBestMove(board, moves){
         var depth = 1;
-        var alpha = -10000;
-        var beta = 10000;
+        var alpha = -225;
+        var beta = 225;
         var color = 1;
+        var bestmoves = [];
         var AImoves = moves;
         var AImoveslength = AImoves.length;
         if (AImoveslength < 4){
-            depth = 15;
+            depth = 14;
         } else if (AImoveslength >= 4 && AImoveslength < 7){
             depth = 12;
         } else if (AImoveslength >= 7 && AImoveslength < 11) {
-            depth = 11;
+            depth = 10;
         } else {
-            depth = 8;
+            depth = 9;
         }
-        var move = AImoves[0];
         for (var i=0; i<AImoveslength; i++){
             var tempboard = [];
             tempboard = boardArrayCopy(tempboard, board);
@@ -411,10 +411,14 @@ $(document).ready(function(){
             }
             if (value > alpha){
                 alpha = value;
-                move = AImoves[i];
+                bestmoves = [];
+                bestmoves.push(AImoves[i]);
+            } else if (value == alpha){
+                bestmoves.push(AImoves[i]);
             }
         }
-        return move;
+        var move = Math.floor(Math.random() * bestmoves.length);
+        return bestmoves[move];
     }
     
     function finish(){
@@ -462,7 +466,6 @@ $(document).ready(function(){
             
         } else {
             move = getBestMove(board, moves);
-            console.log(moves + " " + move);
             makeMove(board, move, 1);
             moves = [];
             moves = getMoves(board, -1);
