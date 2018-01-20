@@ -1,5 +1,12 @@
 $(document).ready(function(){
     
+    function boardArrayCopy(array1, array2){
+        for (var i=0; i<64; i++){
+            array1[i] = array2[i];
+        }
+        return array1;
+    }
+    
     function north(board, position, color){
         if ((position > 15) && (board[position - 8] == (-color))){
             for (var j=(position - 16); j>=0; j=(j-8)){
@@ -239,7 +246,6 @@ $(document).ready(function(){
     }
     
     function AImakeMove(board, move, color){
-        
         var iter = 0;
         if (north(board, move, color) == 1){
             iter = (move - 8);
@@ -297,6 +303,15 @@ $(document).ready(function(){
                 iter -= 9;
             }
         }
+        return;
+    }
+    
+    function getSum(board){
+        var sum=0;
+        for (var i=0; i<64; i++){
+            sum += board[i];
+        }
+        return sum;
     }
     
     function getScore(board){
@@ -318,19 +333,19 @@ $(document).ready(function(){
         return [winner, black, white];
     }
     
-    function NegaMax(board, depth, color, alpha, beta){
+    function NegaMax(tempboard, depth, color, alpha, beta){
         if (depth == 0){
-            return (getScore(board) * -color);
+            return (getSum(tempboard) * -color);
         }
-        var moves = getMoves(board, color);
+        var moves = getMoves(tempboard, color);
         var moveslength = moves.length;
         if (moveslength == 0){
-            moves = getMoves(board, -color);
+            moves = getMoves(tempboard, -color);
             moveslength = moves.length;
             if (moveslength == 0){
-                return (getScore(board) * -color);
+                return (getSum(tempboard) * -color);
             }
-            var value = -NegaMax(board, depth-1, -color, -alpha, -beta);
+            var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
             if (value >= beta){
                 return value;
             }
@@ -339,11 +354,11 @@ $(document).ready(function(){
             }
         } else {
             for (var i=0; i<moveslength; i++){
-                var tempboard = board;
-                AImakeMove(board, moves[i], color);
-                var value = -NegaMax(board, depth-1, -color, -alpha, -beta);
-                board = [];
-                board = tempboard;
+                var tempboard2 = [];
+                tempboard2 = boardArrayCopy(tempboard2, tempboard);
+                AImakeMove(tempboard2, moves[i], color);
+                tempboard2 = boardArrayCopy(tempboard2, tempboard);
+                var value = -NegaMax(tempboard2, depth-1, -color, -alpha, -beta);
                 if (value >= beta){
                     return value;
                 }
@@ -355,20 +370,20 @@ $(document).ready(function(){
         return alpha;
     }
     
-    function getBestMove(board){
+    function getBestMove(board, moves){
         var depth = 4;
         var alpha = -100;
         var beta = 100;
         var color = -1;
-        var AImoves = getMoves(board, color);
+        var AImoves = moves;
         var AImoveslength = AImoves.length;
         var move = AImoves[0];
-        for (int i=0; i<AImoveslength; i++){
-            var tempboard = board;
-            AImakeMove(board, AImoves[i], color);
-            var value = -NegaMax(board, depth-1, -color, -alpha, -beta);
-            board = [];
-            board = tempboard;
+        for (var i=0; i<AImoveslength; i++){
+            var tempboard = [];
+            tempboard = boardArrayCopy(tempboard, board);
+            AImakeMove(tempboard, AImoves[i], color);
+            tempboard = boardArrayCopy(tempboard, board);
+            var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
             if (value >= beta){
                 return AImoves[i];
             }
@@ -423,8 +438,9 @@ $(document).ready(function(){
             }
             
         } else {
-            move = getBestMove(board);
-            makeMove(board, moves[move], -1);
+            move = getBestMove(board, moves);
+            window.alert(moves + move);
+            makeMove(board, move, -1);
             moves = [];
             moves = getMoves(board, 1);
             if (moves.length == 0) {
