@@ -161,7 +161,7 @@ $(document).ready(function(){
     
     function changeColor(board, iter, color){
         board[iter] = color;
-        if (color == 1){
+        if (color == -1){
             $(imgs[iter]).removeClass("white");
             $(imgs[iter]).addClass("black");
         } else {
@@ -172,7 +172,7 @@ $(document).ready(function(){
     }
     
     function makeMove(board, move, color){
-        if (color == 1){
+        if (color == -1){
             for (var q=0; q<64; q++){
                 if ($(imgs[q]).attr("class") == "valid"){
                     $(imgs[q]).removeClass("valid");
@@ -309,7 +309,7 @@ $(document).ready(function(){
     function getSum(board){
         var sum=0;
         for (var i=0; i<64; i++){
-            sum += -board[i];
+            sum += board[i];
         }
         return sum;
     }
@@ -318,9 +318,9 @@ $(document).ready(function(){
         var black=0;
         var white=0;
         for (var i=0; i<64; i++){
-            if (board[i] == 1){
+            if (board[i] == -1){
                 black++;
-            } else if (board[i] == -1) {
+            } else if (board[i] == 1) {
                 white++;
             }
         }
@@ -340,7 +340,7 @@ $(document).ready(function(){
         var moves = getMoves(tempboard, color);
         var moveslength = moves.length;
         if (moveslength == 0){
-            moves = getMoves(tempboard, -color);
+            moves = getMoves(tempboard, color);
             moveslength = moves.length;
             if (moveslength == 0){
                 return (getSum(tempboard) * color);
@@ -371,10 +371,10 @@ $(document).ready(function(){
     }
     
     function getBestMove(board, moves){
-        var depth = 12;
+        var depth = 10;
         var alpha = -100;
         var beta = 100;
-        var color = -1;
+        var color = 1;
         var AImoves = moves;
         var AImoveslength = AImoves.length;
         var move = AImoves[0];
@@ -413,7 +413,7 @@ $(document).ready(function(){
     
     function validCSS(board){
         
-        var validmovesCSS = getMoves(board, 1);
+        var validmovesCSS = getMoves(board, -1);
         var x;
         for (x in validmovesCSS){
             $(imgs[validmovesCSS[x]]).removeClass("empty");
@@ -425,11 +425,11 @@ $(document).ready(function(){
     function play(){
         
         move = -1;
-        var moves = getMoves(board, -1);
+        var moves = getMoves(board, 1);
         
         if (moves.length == 0){
             moves = [];
-            moves = getMoves(board, 1);
+            moves = getMoves(board, -1);
             
             if (moves.length == 0){
                 finish();
@@ -440,9 +440,9 @@ $(document).ready(function(){
             
         } else {
             move = getBestMove(board, moves);
-            makeMove(board, move, -1);
+            makeMove(board, move, 1);
             moves = [];
-            moves = getMoves(board, 1);
+            moves = getMoves(board, -1);
             if (moves.length == 0) {
                 play();
             } else {
@@ -468,17 +468,17 @@ $(document).ready(function(){
     $(imgs[26]).addClass("valid");
     board.push(0);
     $(imgs[27]).addClass("white");
-    board.push(-1);
-    $(imgs[28]).addClass("black");
     board.push(1);
+    $(imgs[28]).addClass("black");
+    board.push(-1);
     for (var i=29; i<35; i++){
         $(imgs[i]).addClass("empty");
         board.push(0);
     };
     $(imgs[35]).addClass("black");
-    board.push(1);
-    $(imgs[36]).addClass("white");
     board.push(-1);
+    $(imgs[36]).addClass("white");
+    board.push(1);
     $(imgs[37]).addClass("valid");
     board.push(0);
     for (var i=38; i<44; i++){
@@ -497,7 +497,7 @@ $(document).ready(function(){
     $("img").click(function(){
         if ($(this).attr("class") == "valid"){
             move = Number($(this).attr("alt"));
-            makeMove(board, move, 1);
+            makeMove(board, move, -1);
             play();
         }
     });
