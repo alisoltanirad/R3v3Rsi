@@ -309,7 +309,7 @@ $(document).ready(function(){
     function getSum(board){
         var sum=0;
         for (var i=0; i<64; i++){
-            sum += board[i];
+            sum += -board[i];
         }
         return sum;
     }
@@ -335,7 +335,7 @@ $(document).ready(function(){
     
     function NegaMax(tempboard, depth, color, alpha, beta){
         if (depth == 0){
-            return (getSum(tempboard) * -color);
+            return (getSum(tempboard) * color);
         }
         var moves = getMoves(tempboard, color);
         var moveslength = moves.length;
@@ -343,13 +343,13 @@ $(document).ready(function(){
             moves = getMoves(tempboard, -color);
             moveslength = moves.length;
             if (moveslength == 0){
-                return (getSum(tempboard) * -color);
+                return (getSum(tempboard) * color);
             }
             var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
-            if (value >= beta){
+            if (value <= beta){
                 return value;
             }
-            if (value > alpha){
+            if (value < alpha){
                 alpha = value;
             }
         } else {
@@ -357,8 +357,8 @@ $(document).ready(function(){
                 var tempboard2 = [];
                 tempboard2 = boardArrayCopy(tempboard2, tempboard);
                 AImakeMove(tempboard2, moves[i], color);
-                tempboard2 = boardArrayCopy(tempboard2, tempboard);
                 var value = -NegaMax(tempboard2, depth-1, -color, -alpha, -beta);
+                tempboard2 = boardArrayCopy(tempboard2, tempboard);
                 if (value >= beta){
                     return value;
                 }
@@ -371,7 +371,7 @@ $(document).ready(function(){
     }
     
     function getBestMove(board, moves){
-        var depth = 4;
+        var depth = 12;
         var alpha = -100;
         var beta = 100;
         var color = -1;
@@ -382,12 +382,13 @@ $(document).ready(function(){
             var tempboard = [];
             tempboard = boardArrayCopy(tempboard, board);
             AImakeMove(tempboard, AImoves[i], color);
-            tempboard = boardArrayCopy(tempboard, board);
             var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+            tempboard = boardArrayCopy(tempboard, board);
             if (value >= beta){
                 return AImoves[i];
             }
             if (value > alpha){
+                alpha = value;
                 move = AImoves[i];
             }
         }
@@ -439,7 +440,6 @@ $(document).ready(function(){
             
         } else {
             move = getBestMove(board, moves);
-            window.alert(moves + move);
             makeMove(board, move, -1);
             moves = [];
             moves = getMoves(board, 1);
