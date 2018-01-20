@@ -371,12 +371,21 @@ $(document).ready(function(){
     }
     
     function getBestMove(board, moves){
-        var depth = 10;
+        var depth = 1;
         var alpha = -100;
         var beta = 100;
         var color = 1;
         var AImoves = moves;
         var AImoveslength = AImoves.length;
+        if (AImoveslength < 6){
+            depth = 14;
+        } else if (AImoveslength >= 6 && AImoveslength < 9){
+            depth = 10;
+        } else if (AImoveslength >= 9 && AImoveslength <= 10) {
+            depth = 9;
+        } else {
+            depth = 8;
+        }
         var move = AImoves[0];
         for (var i=0; i<AImoveslength; i++){
             var tempboard = [];
@@ -392,6 +401,7 @@ $(document).ready(function(){
                 move = AImoves[i];
             }
         }
+        window.alert(AImoveslength);
         return move;
     }
     
