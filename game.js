@@ -238,6 +238,67 @@ $(document).ready(function(){
         return;
     }
     
+    function AImakeMove(board, move, color){
+        
+        var iter = 0;
+        if (north(board, move, color) == 1){
+            iter = (move - 8);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter -= 8;
+            }
+        }
+        if (northeast(board, move, color) == 1){
+            iter = (move - 7);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter -= 7;
+            }
+        }
+        if (east(board, move, color) == 1){
+            iter = (move + 1);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter += 1;
+            }
+        }
+        if (southeast(board, move, color) == 1){
+            iter = (move + 9);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter += 9;
+            }
+        }
+        if (south(board, move, color) == 1){
+            iter = (move + 8);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter += 8;
+            }
+        }
+        if (southwest(board, move, color) == 1){
+            iter = (move + 7);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter += 7;
+            }
+        }
+        if (west(board, move, color) == 1){
+            iter = (move - 1);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter -= 1;
+            }
+        }
+        if (northwest(board, move, color) == 1){
+            iter = (move - 9);
+            while (board[iter] == -color){
+                board[iter] = color;
+                iter -= 9;
+            }
+        }
+    }
+    
     function getScore(board){
         var black=0;
         var white=0;
@@ -255,6 +316,67 @@ $(document).ready(function(){
             winner = -1;
         }
         return [winner, black, white];
+    }
+    
+    function NegaMax(board, depth, color, alpha, beta){
+        if (depth == 0){
+            return (getScore(board) * -color);
+        }
+        var moves = getMoves(board, color);
+        var moveslength = moves.length;
+        if (moveslength == 0){
+            moves = getMoves(board, -color);
+            moveslength = moves.length;
+            if (moveslength == 0){
+                return (getScore(board) * -color);
+            }
+            var value = -NegaMax(board, depth-1, -color, -alpha, -beta);
+            if (value >= beta){
+                return value;
+            }
+            if (value > alpha){
+                alpha = value;
+            }
+        } else {
+            for (var i=0; i<moveslength; i++){
+                var tempboard = board;
+                AImakeMove(board, moves[i], color);
+                var value = -NegaMax(board, depth-1, -color, -alpha, -beta);
+                board = [];
+                board = tempboard;
+                if (value >= beta){
+                    return value;
+                }
+                if (value > alpha){
+                    alpha = value;
+                }
+            }
+        }
+        return alpha;
+    }
+    
+    function getBestMove(board){
+        var depth = 4;
+        var alpha = -100;
+        var beta = 100;
+        var color = -1;
+        var AImoves = getMoves(board, color);
+        var AImoveslength = AImoves.length;
+        var move = AImoves[0];
+        for (int i=0; i<AImoveslength; i++){
+            var tempboard = board;
+            AImakeMove(board, AImoves[i], color);
+            var value = -NegaMax(board, depth-1, -color, -alpha, -beta);
+            board = [];
+            board = tempboard;
+            if (value >= beta){
+                return AImoves[i];
+            }
+            if (value > alpha){
+                move = AImoves[i];
+            }
+        }
+        return move;
     }
     
     function finish(){
@@ -301,7 +423,7 @@ $(document).ready(function(){
             }
             
         } else {
-            move = Math.floor(Math.random() * moves.length);
+            move = getBestMove(board);
             makeMove(board, moves[move], -1);
             moves = [];
             moves = getMoves(board, 1);
