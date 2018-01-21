@@ -1,6 +1,7 @@
-#include<iostream>
-#include<cmath>
-#include<algorithm>
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <stdlib.h>
 using namespace std;
 
 void littlearraycopy(int (&array1)[3], int (&array2)[3]){
@@ -17,7 +18,7 @@ void arraycopy(int (&array1)[64], int (&array2)[64]){
 
 void delarray(int (&array)[64]){
     for (int d=0; d<64; d++){
-        array[d] = 0;
+        array[d] = -1;
     }
 }
 
@@ -33,8 +34,8 @@ void makeBoard(int (&board)[64]){
     for (int i=0; i<64; i++){
             board[i] = 0;
     }
-    board[27] = board[36] = -1;
-    board[35] = board[28] = 1;
+    board[27] = board[36] = 1;
+    board[35] = board[28] = -1;
 }
 
 void printboard(int (&board)[64]){
@@ -46,7 +47,7 @@ void printboard(int (&board)[64]){
     for (int i=0; i<8; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -58,7 +59,7 @@ void printboard(int (&board)[64]){
     for (int i=8; i<16; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -70,7 +71,7 @@ void printboard(int (&board)[64]){
     for (int i=16; i<24; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -82,7 +83,7 @@ void printboard(int (&board)[64]){
     for (int i=24; i<32; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -94,7 +95,7 @@ void printboard(int (&board)[64]){
     for (int i=32; i<40; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -106,7 +107,7 @@ void printboard(int (&board)[64]){
     for (int i=40; i<48; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -118,7 +119,7 @@ void printboard(int (&board)[64]){
     for (int i=48; i<56; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -130,7 +131,7 @@ void printboard(int (&board)[64]){
     for (int i=56; i<64; i++){
         if (board[i] == 0){
             cout << "- ";
-        } else if (board[i] == 1){
+        } else if (board[i] == -1){
             cout << "X ";
         } else {
             cout << "O ";
@@ -371,13 +372,168 @@ void makeMove(int (&board)[64], int move, int color){
     }
 }
 
+int getSum(int (&tempboardsum)[64]){
+    int sum=0;
+    for (int i=0; i<64; i++){
+        switch (i) {
+            case 0: sum += (tempboardsum[i] * 24);
+                    break;
+            case 1: sum += (tempboardsum[i] * -4);
+                    break;
+            case 2: sum += (tempboardsum[i] * 4);
+                    break;
+            case 3: sum += (tempboardsum[i] * 4);
+                    break;
+            case 4: sum += (tempboardsum[i] * 4);
+                    break;
+            case 5: sum += (tempboardsum[i] * 4);
+                    break;
+            case 6: sum += (tempboardsum[i] * -4);
+                    break;
+            case 7: sum += (tempboardsum[i] * 24);
+                    break;
+            case 8: sum += (tempboardsum[i] * -4);
+                    break;
+            case 9: sum += (tempboardsum[i] * -4);
+                    break;
+            case 14: sum += (tempboardsum[i] * -4);
+                     break;
+            case 15: sum += (tempboardsum[i] * -4);
+                     break;
+            case 16: sum += (tempboardsum[i] * 4);
+                     break;
+            case 23: sum += (tempboardsum[i] * 4);
+                     break;
+            case 24: sum += (tempboardsum[i] * 4);
+                     break;
+            case 31: sum += (tempboardsum[i] * 4);
+                     break;
+            case 32: sum += (tempboardsum[i] * 4);
+                     break;
+            case 39: sum += (tempboardsum[i] * 4);
+                     break;
+            case 40: sum += (tempboardsum[i] * 4);
+                     break;
+            case 47: sum += (tempboardsum[i] * 4);
+                     break;
+            case 48: sum += (tempboardsum[i] * -4);
+                     break;
+            case 49: sum += (tempboardsum[i] * -4);
+                     break;
+            case 54: sum += (tempboardsum[i] * -4);
+                     break;
+            case 55: sum += (tempboardsum[i] * -4);
+                     break;
+            case 56: sum += (tempboardsum[i] * 24);
+                     break;
+            case 57: sum += (tempboardsum[i] * -4);
+                     break;
+            case 58: sum += (tempboardsum[i] * 4);
+                     break;
+            case 59: sum += (tempboardsum[i] * 4);
+                     break;
+            case 60: sum += (tempboardsum[i] * 4);
+                     break;
+            case 61: sum += (tempboardsum[i] * 4);
+                     break;
+            case 62: sum += (tempboardsum[i] * -4);
+                     break;
+            case 63: sum += (tempboardsum[i] * 24);
+                     break;
+            default: sum += tempboardsum[i];
+                     break;
+        }
+    }
+    return sum;
+}
+
+int NegaMax(int (&tempboard)[64], int depth, int color, int alpha, int beta){
+    if (depth == 0){
+        return (getSum(tempboard) * color);
+    }
+    int negamaxmoves[64];
+    arraycopy(negamaxmoves, getMoves(tempboard, color));
+    int negamaxmoveslen = moveslength(negamaxmoves);
+    if (negamaxmoveslen == 0){
+        arraycopy(negamaxmoves, getMoves(tempboard, -color));
+        negamaxmoveslen = moveslength(negamaxmoves);
+        if (negamaxmoveslen == 0){
+            return (getSum(tempboard) * color);
+        }
+        int value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+        if (value >= beta){
+            return value;
+        }
+        if (value > alpha){
+            alpha = value;
+        }
+    } else {
+        for (int i=0; i<negamaxmoveslen; i++){
+            int tempboard2[64];
+            arraycopy(tempboard2, tempboard);
+            makeMove(tempboard2, negamaxmoves[i], color);
+            int value = -NegaMax(tempboard2, depth-1, -color, -alpha, -beta);
+            arraycopy(tempboard2, tempboard);
+            if (value >= beta){
+                return value;
+            }
+            if (value > alpha){
+                alpha = value;
+            }
+        }
+    }
+    return alpha;
+}
+
+int getBestMove(int (&board)[64], int (&moves)[64]){
+    int depth = 1;
+    int alpha = -225;
+    int beta = 225;
+    int color = 1;
+    int bestmoves[64];
+    delarray(bestmoves);
+    int movesiter = 0;
+    int moveslen = moveslength(moves);
+    if (moveslen < 4){
+            depth = 14;
+        } else if (moveslen >= 4 && moveslen < 7){
+            depth = 12;
+        } else if (moveslen >= 7 && moveslen < 12) {
+            depth = 10;
+        } else {
+            depth = 8;
+        }
+    for (int i=0; i<moveslen; i++){
+        int tempboard[64];
+        arraycopy(tempboard, board);
+        makeMove(tempboard, moves[i], color);
+        int value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+        arraycopy(tempboard, board);
+        if (value >= beta){
+            return moves[i];
+        }
+        if (value > alpha){
+            alpha = value;
+            delarray(bestmoves);
+            movesiter = 0;
+            bestmoves[movesiter] = moves[i];
+            movesiter++;
+        } else if (value == alpha){
+            bestmoves[movesiter] = moves[i];
+            movesiter++;
+        }
+    }
+    int bestmove = int(rand() * moveslength(bestmoves));
+    return bestmoves[bestmove];
+}
+
 int (&getScore(int (&board)[64]))[3]{
     int black=0;
     int white=0;
     for (int i=0; i<64; i++){
-        if (board[i] == 1){
+        if (board[i] == -1){
             black++;
-        } else if (board[i] == -1) {
+        } else if (board[i] == 1) {
             white++;
         }
     }
@@ -414,7 +570,7 @@ void play(){
     makeBoard(board);
 
     int move = -1;
-    int turn = 1;
+    int turn = -1;
     int moves[64];
 
     while (true){
@@ -430,7 +586,7 @@ void play(){
                 }
         } else {
             printboard(board);
-            if (turn == 1){
+            if (turn == -1){
                 int a, b;
                 cin >> a >> b;
                 move = ((b * 8) + a);
@@ -444,7 +600,7 @@ void play(){
                     iter++;
                 }
             } else {
-                move = moves[0];
+                move = getBestMove(board, moves);
                 makeMove(board, move, turn);
                 turn = -turn;
             }

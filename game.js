@@ -307,7 +307,7 @@ $(document).ready(function(){
     }
     
     function getSum(tempboardsum){
-        var sum=0;
+        var sum = 0;
         var corners = [0,7,56,63];
         var buffers = [1,6,8,9,14,15,
                        48,49,54,55,57,62];
@@ -315,11 +315,11 @@ $(document).ready(function(){
                      32,39,40,47,58,59,60,61];
         for (var i=0; i<64; i++){
             if (corners.includes(i)){
-                sum += tempboardsum[i] * 24;
+                sum += (tempboardsum[i] * 24);
             } else if (buffers.includes(i)){
-                sum += tempboardsum[i] * -4;
+                sum += (tempboardsum[i] * -4);
             } else if (edges.includes(i)){
-                sum += tempboardsum[i] * 3;
+                sum += (tempboardsum[i] * 4);
             } else {
                 sum += tempboardsum[i];
             }
@@ -395,10 +395,10 @@ $(document).ready(function(){
             depth = 14;
         } else if (AImoveslength >= 4 && AImoveslength < 7){
             depth = 12;
-        } else if (AImoveslength >= 7 && AImoveslength < 11) {
+        } else if (AImoveslength >= 7 && AImoveslength < 12) {
             depth = 10;
         } else {
-            depth = 9;
+            depth = 8;
         }
         for (var i=0; i<AImoveslength; i++){
             var tempboard = [];
