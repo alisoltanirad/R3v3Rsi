@@ -4,47 +4,47 @@
 #include <stdlib.h>
 using namespace std;
 
-void littlearraycopy(int (&array1)[3], int (&array2)[3]){
-    for (int c=0; c<3; c++){
+void littlearraycopy(short (&array1)[3], short (&array2)[3]){
+    for (short c=0; c<3; c++){
         array1[c] = array2[c];
     }
 }
 
-void arraycopy(int (&array1)[64], int (&array2)[64]){
-    for (int c=0; c<64; c++){
+void arraycopy(short (&array1)[64], short (&array2)[64]){
+    for (short c=0; c<64; c++){
         array1[c] = array2[c];
     }
 }
 
-void delarray(int (&array)[64]){
-    for (int d=0; d<64; d++){
+void delarray(short (&array)[64]){
+    for (short d=0; d<64; d++){
         array[d] = -1;
     }
 }
 
-int moveslength(int (&array)[64]){
-    int moveslength = 0;
+short moveslength(short (&array)[64]){
+    short moveslength = 0;
     while (array[moveslength] != -1){
         moveslength++;
     }
     return moveslength;
 }
 
-void makeBoard(int (&board)[64]){
-    for (int i=0; i<64; i++){
+void makeBoard(short (&board)[64]){
+    for (short i=0; i<64; i++){
             board[i] = 0;
     }
     board[27] = board[36] = 1;
     board[35] = board[28] = -1;
 }
 
-void printboard(int (&board)[64]){
+void printboard(short (&board)[64]){
 
     cout << "" << endl;
     cout << "  " << "0 1 2 3 4 5 6 7" << endl;
 
     cout << "0 ";
-    for (int i=0; i<8; i++){
+    for (short i=0; i<8; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -56,7 +56,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "1 ";
-    for (int i=8; i<16; i++){
+    for (short i=8; i<16; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -68,7 +68,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "2 ";
-    for (int i=16; i<24; i++){
+    for (short i=16; i<24; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -80,7 +80,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "3 ";
-    for (int i=24; i<32; i++){
+    for (short i=24; i<32; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -92,7 +92,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "4 ";
-    for (int i=32; i<40; i++){
+    for (short i=32; i<40; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -104,7 +104,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "5 ";
-    for (int i=40; i<48; i++){
+    for (short i=40; i<48; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -116,7 +116,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "6 ";
-    for (int i=48; i<56; i++){
+    for (short i=48; i<56; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -128,7 +128,7 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 
     cout << "7 ";
-    for (int i=56; i<64; i++){
+    for (short i=56; i<64; i++){
         if (board[i] == 0){
             cout << "- ";
         } else if (board[i] == -1){
@@ -140,9 +140,9 @@ void printboard(int (&board)[64]){
     cout << "" << endl;
 }
 
-int north(int (&board)[64], int position, int color){
+short north(short (&board)[64], short position, short color){
     if ((position > 15) && (board[position - 8] == (-color))){
-        for (int j=(position - 16); j>=0; j=(j-8)){
+        for (short j=(position - 16); j>=0; j=(j-8)){
             if (board[j] == 0){
                 return 0;
             } else if (board[j] == color){
@@ -153,11 +153,11 @@ int north(int (&board)[64], int position, int color){
     return 0;
 }
 
-int northeast(int (&board)[64], int position, int color){
-    int limit = min((int(floor(position/8))+1),(((int(floor(position/8))+1)*8)-position));
+short northeast(short (&board)[64], short position, short color){
+    short limit = min((short(floor(position/8))+1),(((short(floor(position/8))+1)*8)-position));
     if ((limit > 2) && (board[position - 7] == (-color))){
-        int j = (position - 7);
-        for (int k=2; k<limit; k++){
+        short j = (position - 7);
+        for (short k=2; k<limit; k++){
             j -= 7;
             if (board[j] == 0){
                 return 0;
@@ -169,10 +169,10 @@ int northeast(int (&board)[64], int position, int color){
     return 0;
 }
 
-int east(int (&board)[64], int position, int color){
-    int limit = ((int(floor(position / 8)) + 1) * 8);
+short east(short (&board)[64], short position, short color){
+    short limit = ((short(floor(position / 8)) + 1) * 8);
     if (((limit - position) > 2) && (board[position + 1] == (-color))){
-        for (int j=(position + 2); j<limit; j++){
+        for (short j=(position + 2); j<limit; j++){
             if (board[j] == 0){
                 return 0;
             } else if (board[j] == color){
@@ -183,11 +183,11 @@ int east(int (&board)[64], int position, int color){
     return 0;
 }
 
-int southeast(int (&board)[64], int position, int color){
-    int limit = min((int(floor(63-position))+1),(((int(floor(position/8))+1)*8)-position));
+short southeast(short (&board)[64], short position, short color){
+    short limit = min((short(floor(63-position))+1),(((short(floor(position/8))+1)*8)-position));
     if ((limit > 2) && (board[position + 9] == (-color))){
-        int j = (position + 9);
-        for (int k=2; k<limit; k++){
+        short j = (position + 9);
+        for (short k=2; k<limit; k++){
             j += 9;
             if (board[j] == 0){
                 return 0;
@@ -199,9 +199,9 @@ int southeast(int (&board)[64], int position, int color){
     return 0;
 }
 
-int south(int (&board)[64], int position, int color){
+short south(short (&board)[64], short position, short color){
     if ((position < 48) && (board[position + 8] == (-color))){
-        for (int j=(position + 16); j<64; j=(j+8)){
+        for (short j=(position + 16); j<64; j=(j+8)){
             if (board[j] == 0){
                 return 0;
             } else if (board[j] == color){
@@ -212,11 +212,11 @@ int south(int (&board)[64], int position, int color){
     return 0;
 }
 
-int southwest(int (&board)[64], int position, int color){
-    int limit = min((int(floor((63-position)/8))+1),((position%8)+1));
+short southwest(short (&board)[64], short position, short color){
+    short limit = min((short(floor((63-position)/8))+1),((position%8)+1));
     if ((limit > 2) && (board[position + 7] == (-color))){
-        int j = (position + 7);
-        for (int k=2; k<limit; k++){
+        short j = (position + 7);
+        for (short k=2; k<limit; k++){
             j += 7;
             if (board[j] == 0){
                 return 0;
@@ -228,10 +228,10 @@ int southwest(int (&board)[64], int position, int color){
     return 0;
 }
 
-int west(int (&board)[64], int position, int color){
-    int limit = (position - (position % 8));
+short west(short (&board)[64], short position, short color){
+    short limit = (position - (position % 8));
     if (((position - limit) >= 2) && (board[position - 1] == (-color))){
-        for (int j=(position - 2); j>=limit; j--){
+        for (short j=(position - 2); j>=limit; j--){
             if (board[j] == 0){
                 return 0;
             } else if (board[j] == color){
@@ -242,11 +242,11 @@ int west(int (&board)[64], int position, int color){
     return 0;
 }
 
-int northwest(int (&board)[64], int position, int color){
-    int limit = min((int(floor(position/8))+1),((position%8)+1));
+short northwest(short (&board)[64], short position, short color){
+    short limit = min((short(floor(position/8))+1),((position%8)+1));
     if ((limit > 2) && (board[position - 9] == (-color))){
-        int j = (position - 9);
-        for (int k=2; k<limit; k++){
+        short j = (position - 9);
+        for (short k=2; k<limit; k++){
             j -= 9;
             if (board[j] == 0){
                 return 0;
@@ -258,10 +258,10 @@ int northwest(int (&board)[64], int position, int color){
     return 0;
 }
 
-int (&getMoves(int (&board)[64], int color))[64]{
-    int validmoves[64];
-    int iter = 0;
-    for (int p=0; p<64; p++){
+short (&getMoves(short (&board)[64], short color))[64]{
+    short validmoves[64];
+    short iter = 0;
+    for (short p=0; p<64; p++){
         if (board[p] == 0){
             if (north(board, p, color) == 1){
                 validmoves[iter] = p;
@@ -305,15 +305,15 @@ int (&getMoves(int (&board)[64], int color))[64]{
     return validmoves;
 }
 
-void changeColor(int (&board)[64], int iter, int color){
+void changeColor(short (&board)[64], short iter, short color){
     board[iter] = color;
 }
 
-void makeMove(int (&board)[64], int move, int color){
+void makeMove(short (&board)[64], short move, short color){
 
     board[move] = color;
 
-    int iter = 0;
+    short iter = 0;
     if (north(board, move, color) == 1){
         iter = (move - 8);
         while (board[iter] == -color){
@@ -372,9 +372,9 @@ void makeMove(int (&board)[64], int move, int color){
     }
 }
 
-int getSum(int (&tempboardsum)[64]){
-    int sum=0;
-    for (int i=0; i<64; i++){
+short getSum(short (&tempboardsum)[64]){
+    short sum=0;
+    for (short i=0; i<64; i++){
         switch (i) {
             case 0: sum += (tempboardsum[i] * 24);
                     break;
@@ -447,20 +447,20 @@ int getSum(int (&tempboardsum)[64]){
     return sum;
 }
 
-int NegaMax(int (&tempboard)[64], int depth, int color, int alpha, int beta){
+short NegaMax(short (&tempboard)[64], short depth, short color, short alpha, short beta){
     if (depth == 0){
         return (getSum(tempboard) * color);
     }
-    int negamaxmoves[64];
+    short negamaxmoves[64];
     arraycopy(negamaxmoves, getMoves(tempboard, color));
-    int negamaxmoveslen = moveslength(negamaxmoves);
+    short negamaxmoveslen = moveslength(negamaxmoves);
     if (negamaxmoveslen == 0){
         arraycopy(negamaxmoves, getMoves(tempboard, -color));
         negamaxmoveslen = moveslength(negamaxmoves);
         if (negamaxmoveslen == 0){
             return (getSum(tempboard) * color);
         }
-        int value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+        short value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
         if (value >= beta){
             return value;
         }
@@ -468,11 +468,11 @@ int NegaMax(int (&tempboard)[64], int depth, int color, int alpha, int beta){
             alpha = value;
         }
     } else {
-        for (int i=0; i<negamaxmoveslen; i++){
-            int tempboard2[64];
+        for (short i=0; i<negamaxmoveslen; i++){
+            short tempboard2[64];
             arraycopy(tempboard2, tempboard);
             makeMove(tempboard2, negamaxmoves[i], color);
-            int value = -NegaMax(tempboard2, depth-1, -color, -alpha, -beta);
+            short value = -NegaMax(tempboard2, depth-1, -color, -alpha, -beta);
             arraycopy(tempboard2, tempboard);
             if (value >= beta){
                 return value;
@@ -485,29 +485,25 @@ int NegaMax(int (&tempboard)[64], int depth, int color, int alpha, int beta){
     return alpha;
 }
 
-int getBestMove(int (&board)[64], int (&moves)[64]){
-    int depth = 1;
-    int alpha = -225;
-    int beta = 225;
-    int color = 1;
-    int bestmoves[64];
+short getBestMove(short (&board)[64], short (&moves)[64]){
+    short depth = 1;
+    short alpha = -225;
+    short beta = 225;
+    short color = 1;
+    short bestmoves[64];
     delarray(bestmoves);
-    int movesiter = 0;
-    int moveslen = moveslength(moves);
+    short movesiter = 0;
+    short moveslen = moveslength(moves);
     if (moveslen < 4){
-            depth = 14;
-        } else if (moveslen >= 4 && moveslen < 7){
-            depth = 12;
-        } else if (moveslen >= 7 && moveslen < 12) {
-            depth = 10;
-        } else {
-            depth = 8;
-        }
-    for (int i=0; i<moveslen; i++){
-        int tempboard[64];
+        depth = 8;
+    } else {
+        depth = 6;
+    }
+    for (short i=0; i<moveslen; i++){
+        short tempboard[64];
         arraycopy(tempboard, board);
         makeMove(tempboard, moves[i], color);
-        int value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+        short value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
         arraycopy(tempboard, board);
         if (value >= beta){
             return moves[i];
@@ -523,32 +519,32 @@ int getBestMove(int (&board)[64], int (&moves)[64]){
             movesiter++;
         }
     }
-    int bestmove = int(rand() * moveslength(bestmoves));
+    short bestmove = short(rand() % moveslength(bestmoves));
     return bestmoves[bestmove];
 }
 
-int (&getScore(int (&board)[64]))[3]{
-    int black=0;
-    int white=0;
-    for (int i=0; i<64; i++){
+short (&getScore(short (&board)[64]))[3]{
+    short black=0;
+    short white=0;
+    for (short i=0; i<64; i++){
         if (board[i] == -1){
             black++;
         } else if (board[i] == 1) {
             white++;
         }
     }
-    int winner = 0;
+    short winner = 0;
     if (black > white){
         winner = 1;
     } else if (white > black){
         winner = -1;
     }
-    int scorearray[3] = {winner, black, white};
+    short scorearray[3] = {winner, black, white};
     return scorearray;
 }
 
-void finish(int (&board)[64]){
-    int score[3];
+void finish(short (&board)[64]){
+    short score[3];
     littlearraycopy(score, getScore(board));
     if (score[0] == 1){
         cout << "You Win! :)\n" <<
@@ -566,12 +562,12 @@ void finish(int (&board)[64]){
 
 void play(){
 
-    int board[64];
+    short board[64];
     makeBoard(board);
 
-    int move = -1;
-    int turn = -1;
-    int moves[64];
+    short move = -1;
+    short turn = -1;
+    short moves[64];
 
     while (true){
 
@@ -587,10 +583,10 @@ void play(){
         } else {
             printboard(board);
             if (turn == -1){
-                int a, b;
+                short a, b;
                 cin >> a >> b;
                 move = ((b * 8) + a);
-                int iter = 0;
+                short iter = 0;
                 while (moves[iter] != -1){
                     if (move == moves[iter]){
                         makeMove(board, move, turn);
