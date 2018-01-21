@@ -1,11 +1,16 @@
 $(document).ready(function(){
     
+    // array copy functions copy contents of an array into another array.
+    
     function boardArrayCopy(array1, array2){
         for (var i=0; i<64; i++){
             array1[i] = array2[i];
         }
         return array1;
     }
+    
+    /* direction functions check if it is possible to make move to
+    a particular direction for a player. */
     
     function north(board, position, color){
         if ((position > 15) && (board[position - 8] == (-color))){
@@ -125,6 +130,9 @@ $(document).ready(function(){
         return 0;
     }
     
+    /* getMoves function gets all the possible moves of the players
+    when it is their turn. */
+    
     function getMoves(board, color){
         var validmoves = [];
         for (var p=0; p<64; p++){
@@ -159,6 +167,8 @@ $(document).ready(function(){
         return validmoves;
     }
     
+    // changeColor function changes color of a particular block.
+    
     function changeColor(board, iter, color){
         board[iter] = color;
         if (color == -1){
@@ -170,6 +180,8 @@ $(document).ready(function(){
         }
         return;
     }
+    
+    // makeMove function makes moves in possible directions.
     
     function makeMove(board, move, color){
         if (color == -1){
@@ -245,6 +257,8 @@ $(document).ready(function(){
         return;
     }
     
+    // AImakeMove makes move just in NegaMax nodes.
+    
     function AImakeMove(board, move, color){
         var iter = 0;
         if (north(board, move, color) == 1){
@@ -306,6 +320,10 @@ $(document).ready(function(){
         return;
     }
     
+    /* get Summation function evaluates the board for a particular node
+    of the NegaMax's tree data structure.
+    it assigns different values for different blocks of the board. */
+    
     function getSum(tempboardsum){
         var sum = 0;
         var corners = [0,7,56,63];
@@ -327,24 +345,9 @@ $(document).ready(function(){
         return sum;
     }
     
-    function getScore(board){
-        var black=0;
-        var white=0;
-        for (var i=0; i<64; i++){
-            if (board[i] == -1){
-                black++;
-            } else if (board[i] == 1) {
-                white++;
-            }
-        }
-        var winner = 0;
-        if (black > white){
-            winner = 1;
-        } else if (white > black){
-            winner = -1;
-        }
-        return [winner, black, white];
-    }
+    /* NegaMax function implements the NegaMax algorithm plus
+    alpha-beta pruning for decision making of the AI.
+    NegaMax is the optimized form of MiniMax algorithm. */
     
     function NegaMax(tempboard, depth, color, alpha, beta){
         if (depth == 0){
@@ -382,6 +385,10 @@ $(document).ready(function(){
         }
         return alpha;
     }
+    
+    /* getBestMove function finds the best move to make for AI in
+    each round from possible moves. it implements
+    the first branch of the NegaMax algorithm. */
     
     function getBestMove(board, moves){
         var depth = 1;
@@ -421,6 +428,29 @@ $(document).ready(function(){
         return bestmoves[move];
     }
     
+    // getScore function calculates scores of the players when game ends.
+    
+    function getScore(board){
+        var black=0;
+        var white=0;
+        for (var i=0; i<64; i++){
+            if (board[i] == -1){
+                black++;
+            } else if (board[i] == 1) {
+                white++;
+            }
+        }
+        var winner = 0;
+        if (black > white){
+            winner = 1;
+        } else if (white > black){
+            winner = -1;
+        }
+        return [winner, black, white];
+    }
+    
+    // finish function is called when game ends.
+    
     function finish(){
         var score = getScore(board);
         if (score[0] == 1){
@@ -437,6 +467,8 @@ $(document).ready(function(){
         location.reload();
     }
     
+    // validCSS function reveals possible moves for the player.
+    
     function validCSS(board){
         
         var validmovesCSS = getMoves(board, -1);
@@ -447,6 +479,8 @@ $(document).ready(function(){
         }
         return;
     }
+    
+    // Play is the main function of the game.
     
     function play(){
         
@@ -477,6 +511,8 @@ $(document).ready(function(){
         }
         return;
     }
+    
+    // Initializing the board in the beginning.
     
     var board=[];
     var imgs = document.getElementsByTagName("img");
@@ -520,6 +556,8 @@ $(document).ready(function(){
     
     var move = -1;
     
+    // jQuery function to get player's move.
+    
     $("img").click(function(){
         if ($(this).attr("class") == "valid"){
             move = Number($(this).attr("alt"));
@@ -527,6 +565,8 @@ $(document).ready(function(){
             play();
         }
     });
+    
+    // jQuery function to start over the game.
     
     $("#newgame").click(function(){
        location.reload(); 
