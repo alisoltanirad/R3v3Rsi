@@ -10,7 +10,8 @@ $(document).ready(function(){
     }
     
     /* direction functions check if it is possible to make move to
-    a particular direction for a player. */
+    a particular direction for a player. each function returns 1
+    if path is valid to make move, otherwise returns 0. */
     
     function north(board, position, color){
         if ((position > 15) && (board[position - 8] == (-color))){
@@ -131,7 +132,7 @@ $(document).ready(function(){
     }
     
     /* getMoves function gets all the possible moves of the players
-    when it is their turn. */
+    when it is their turn. returns an array containing possible moves. */
     
     function getMoves(board, color){
         var validmoves = [];
@@ -170,7 +171,8 @@ $(document).ready(function(){
     // changeColor function changes color of a particular block.
     
     function changeColor(board, iter, color){
-        board[iter] = color;
+        board[iter] = color; // changes the board
+        // then changes CSS classes
         if (color == -1){
             $(imgs[iter]).removeClass("white");
             $(imgs[iter]).addClass("black");
@@ -181,11 +183,12 @@ $(document).ready(function(){
         return;
     }
     
-    // makeMove function makes moves in possible directions.
+    /* makeMove function makes moves in possible directions.
+        also changes CSS classes using changeColor function.*/
     
     function makeMove(board, move, color){
         if (color == -1){
-            for (var q=0; q<64; q++){
+            for (var q=0; q<64; q++){ // clears valid moves from the board
                 if ($(imgs[q]).attr("class") == "valid"){
                     $(imgs[q]).removeClass("valid");
                     $(imgs[q]).addClass("empty");
@@ -257,7 +260,9 @@ $(document).ready(function(){
         return;
     }
     
-    // AImakeMove makes move just in NegaMax nodes.
+    /* AImakeMove makes move just in NegaMax nodes.
+        unlike the makeMove function, doesn't change
+        CSS classes. */
     
     function AImakeMove(board, move, color){
         var iter = 0;
@@ -326,9 +331,12 @@ $(document).ready(function(){
     
     function getSum(tempboardsum){
         var sum = 0;
+        // corners are very valuable. (value = 24)
         var corners = [0,7,56,63];
+        // buffers are harmful. (value = -4)
         var buffers = [1,6,8,9,14,15,
                        48,49,54,55,57,62];
+        // edges are important. (value = 4)
         var edges = [2,3,4,5,16,23,24,31,
                      32,39,40,47,58,59,60,61];
         for (var i=0; i<64; i++){
@@ -339,6 +347,7 @@ $(document).ready(function(){
             } else if (edges.includes(i)){
                 sum += (tempboardsum[i] * 4);
             } else {
+                // other blocks (value = 1)
                 sum += tempboardsum[i];
             }
         }
@@ -350,15 +359,18 @@ $(document).ready(function(){
     NegaMax is the optimized form of MiniMax algorithm. */
     
     function NegaMax(tempboard, depth, color, alpha, beta){
-        if (depth == 0){
+        if (depth == 0){ 
+            // when reaches to the last node of a branch
             return (getSum(tempboard) * color);
         }
         var moves = getMoves(tempboard, color);
         var moveslength = moves.length;
-        if (moveslength == 0){
+        if (moveslength == 0){ 
+            // when there's no possible move to make
             moves = getMoves(tempboard, -color);
             moveslength = moves.length;
             if (moveslength == 0){
+                // when game ends in the branch
                 return (getSum(tempboard) * color);
             }
             var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
@@ -388,7 +400,7 @@ $(document).ready(function(){
     
     /* getBestMove function finds the best move to make for AI in
     each round from possible moves. it implements
-    the first branch of the NegaMax algorithm. */
+    the first stage of the NegaMax algorithm. */
     
     function getBestMove(board, moves){
         var depth = 1;
@@ -398,6 +410,8 @@ $(document).ready(function(){
         var bestmoves = [];
         var AImoves = moves;
         var AImoveslength = AImoves.length;
+        /* determining search depth considering the number of the possible
+        moves, to reduce time of the search. */
         if (AImoveslength < 4){
             depth = 14;
         } else if (AImoveslength >= 4 && AImoveslength < 7){
@@ -424,11 +438,14 @@ $(document).ready(function(){
                 bestmoves.push(AImoves[i]);
             }
         }
+        // choosing a move randomly from best moves to be unpredictable.
         var move = Math.floor(Math.random() * bestmoves.length);
         return bestmoves[move];
     }
     
-    // getScore function calculates scores of the players when game ends.
+    /* getScore function calculates scores of the players 
+    when game ends. return an array containing the code
+    of the winner and scores of player and AI. */
     
     function getScore(board){
         var black=0;
@@ -449,7 +466,8 @@ $(document).ready(function(){
         return [winner, black, white];
     }
     
-    // finish function is called when game ends.
+    /* finish function is called when game ends. shows 
+        details and final scores. */
     
     function finish(){
         var score = getScore(board);
@@ -480,7 +498,8 @@ $(document).ready(function(){
         return;
     }
     
-    // Play is the main function of the game.
+    /* Play is the main function of the game.
+        AI make moves in this function. */
     
     function play(){
         
@@ -492,6 +511,7 @@ $(document).ready(function(){
             moves = getMoves(board, -1);
             
             if (moves.length == 0){
+                // when game ends
                 finish();
             } else {
                 validCSS(board);
@@ -504,8 +524,10 @@ $(document).ready(function(){
             moves = [];
             moves = getMoves(board, -1);
             if (moves.length == 0) {
+                // if player doesn't have valid moves
                 play();
             } else {
+                // preparing the board for player to make a move
                 validCSS(board);
             }
         }

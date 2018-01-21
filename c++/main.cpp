@@ -4,7 +4,7 @@
 #include <stdlib.h> // rand
 using namespace std;
 
-// copy array functions copy contents of an array into another array
+// array copy functions copy contents of an array into another array.
 
 void littlearraycopy(short (&array1)[3], short (&array2)[3]){
     for (short c=0; c<3; c++){
@@ -18,7 +18,7 @@ void arraycopy(short (&array1)[64], short (&array2)[64]){
     }
 }
 
-// delete array function set all the values of an array to -1
+// array delete function set all the values of an array to -1.
 
 void delarray(short (&array)[64]){
     for (short d=0; d<64; d++){
@@ -26,7 +26,7 @@ void delarray(short (&array)[64]){
     }
 }
 
-// moveslength function calculate number of possible moves
+// moveslength function calculate number of possible moves.
 
 short moveslength(short (&array)[64]){
     short moveslength = 0;
@@ -36,21 +36,23 @@ short moveslength(short (&array)[64]){
     return moveslength;
 }
 
-// makeBoard function initializes the game board
+// makeBoard function initializes the game board.
 
 void makeBoard(short (&board)[64]){
     for (short i=0; i<64; i++){
             board[i] = 0;
     }
-    board[27] = board[36] = 1;
-    board[35] = board[28] = -1;
+    board[27] = board[36] = 1; // 1 for AI
+    board[35] = board[28] = -1; // -1 for player
 }
 
 /* printBoard function prints a scheme of the board
-    in each round of the game */
+    in each round of the game. */
 
 void printBoard(short (&board)[64]){
 
+    /* printBoard function prints X for player's blocks,
+        O for AI's blocks, and - if block is empty. */
     cout << "" << endl;
     cout << "  " << "0 1 2 3 4 5 6 7" << endl;
 
@@ -153,12 +155,14 @@ void printBoard(short (&board)[64]){
 }
 
 /* shoeValidMoves function prints valid moves of the players
-    when it is their turn */
+    when it is their turn. */
 
 void showValidMoves(short (&moves)[64]){
     short movesiter = 0;
     cout << "Valid Moves : ";
     while(moves[movesiter] != -1){
+        /* prints each moves column and row,
+            in form of (column, row) */
         cout << "(" << short(moves[movesiter] % 8)
              << ", " << short(moves[movesiter] / 8) << ") ";
         movesiter++;
@@ -168,7 +172,8 @@ void showValidMoves(short (&moves)[64]){
 }
 
 /* direction functions check if it is possible to make move to
-    a particular direction for a player*/
+    a particular direction for a player. each function returns 1
+    if path is valid to make move, otherwise returns 0. */
 
 short north(short (&board)[64], short position, short color){
     if ((position > 15) && (board[position - 8] == (-color))){
@@ -289,7 +294,7 @@ short northwest(short (&board)[64], short position, short color){
 }
 
 /* getMoves function gets all the possible moves of the players
-    when it is their turn*/
+    when it is their turn. returns an array containing possible moves. */
 
 short (&getMoves(short (&board)[64], short color))[64]{
     short validmoves[64];
@@ -338,13 +343,13 @@ short (&getMoves(short (&board)[64], short color))[64]{
     return validmoves;
 }
 
-// changeColor function changes color of a particular block
+// changeColor function changes color of a particular block.
 
 void changeColor(short (&board)[64], short iter, short color){
     board[iter] = color;
 }
 
-// makeMove function makes moves in possible directions
+// makeMove function makes moves in possible directions.
 
 void makeMove(short (&board)[64], short move, short color){
 
@@ -411,11 +416,15 @@ void makeMove(short (&board)[64], short move, short color){
 
 /* get Summation function evaluates the board for a particular node
     of the NegaMax's tree data structure.
-    it assigns different values for different blocks of the board.*/
+    it assigns different values for different blocks of the board. */
 
 short getSum(short (&tempboardsum)[64]){
     short sum=0;
     for (short i=0; i<64; i++){
+        // corners are very valuable. (value = 24)
+        // buffers are harmful. (value = -4)
+        // edges are important. (value = 4)
+        // other blocks have normal value. (value = 1)
         switch (i) {
             case 0: sum += (tempboardsum[i] * 24);
                     break;
@@ -490,19 +499,22 @@ short getSum(short (&tempboardsum)[64]){
 
 /* NegaMax function implements the NegaMax algorithm plus
     alpha-beta pruning for decision making of the AI.
-    NegaMax is the optimized form of MiniMax algorithm.*/
+    NegaMax is the optimized form of MiniMax algorithm. */
 
 short NegaMax(short (&tempboard)[64], short depth, short color, short alpha, short beta){
     if (depth == 0){
+        // when reaches to the last node of a branch
         return (getSum(tempboard) * color);
     }
     short negamaxmoves[64];
     arraycopy(negamaxmoves, getMoves(tempboard, color));
     short negamaxmoveslen = moveslength(negamaxmoves);
     if (negamaxmoveslen == 0){
+        // when there's no possible move to make
         arraycopy(negamaxmoves, getMoves(tempboard, -color));
         negamaxmoveslen = moveslength(negamaxmoves);
         if (negamaxmoveslen == 0){
+            // when game ends in a branch
             return (getSum(tempboard) * color);
         }
         short value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
@@ -532,7 +544,7 @@ short NegaMax(short (&tempboard)[64], short depth, short color, short alpha, sho
 
 /* getBestMove function finds the best move to make for AI in
     each round from possible moves. it implements
-    the first branch of the NegaMax algorithm.*/
+    the first stage of the NegaMax algorithm. */
 
 short getBestMove(short (&board)[64], short (&moves)[64]){
     short depth = 1;
@@ -543,6 +555,8 @@ short getBestMove(short (&board)[64], short (&moves)[64]){
     delarray(bestmoves);
     short movesiter = 0;
     short moveslen = moveslength(moves);
+    /* determining search depth considering the number of the possible
+        moves, to reduce time of the search. */
     if (moveslen < 4){
         depth = 8;
     } else {
@@ -568,11 +582,14 @@ short getBestMove(short (&board)[64], short (&moves)[64]){
             movesiter++;
         }
     }
+    // choosing a move randomly from best moves to be unpredictable.
     short bestmove = short(rand() % moveslength(bestmoves));
     return bestmoves[bestmove];
 }
 
-// getScore function calculates scores of the players when game ends
+/* getScore function calculates scores of the players
+    when game ends. return an array containing the code
+    of the winner and scores of player and AI. */
 
 short (&getScore(short (&board)[64]))[3]{
     short black=0;
@@ -594,7 +611,8 @@ short (&getScore(short (&board)[64]))[3]{
     return scorearray;
 }
 
-// finish function is called when game ends.
+/* finish function is called when game ends. prints
+    details and final scores. */
 
 void finish(short (&board)[64]){
     short score[3];
@@ -613,10 +631,12 @@ void finish(short (&board)[64]){
     exit(0);
 }
 
-// Play is the main function of the game.
+/* Play is the main function of the game. it works till
+    the end of the game. */
 
 void play(){
 
+    // initializing the board
     short board[64];
     makeBoard(board);
 
@@ -624,6 +644,7 @@ void play(){
     short turn = -1;
     short moves[64];
 
+    // loops till the game ends.
     while (true){
 
         arraycopy(moves, getMoves(board, turn));
@@ -633,14 +654,16 @@ void play(){
             delarray(moves);
             arraycopy(moves, getMoves(board, turn));
                 if (moveslength(moves) == 0){
+                    // when game ends
                     finish(board);
                 }
         } else {
             printBoard(board);
             if (turn == -1){
+                // when it is player's turn to make move
                 showValidMoves(moves);
                 short a, b;
-                cin >> a >> b;
+                cin >> a >> b; // get players move
                 move = ((b * 8) + a);
                 short iter = 0;
                 while (moves[iter] != -1){
@@ -652,6 +675,7 @@ void play(){
                     iter++;
                 }
             } else {
+                // when it is AI's turn to make move
                 move = getBestMove(board, moves);
                 makeMove(board, move, turn);
                 turn = -turn;
