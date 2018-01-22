@@ -1,7 +1,7 @@
-#include <iostream> // cin, cout, ...
+#include <iostream> // cin, cout, endl
 #include <cmath> // floor
 #include <algorithm> // min
-#include <stdlib.h> // rand
+#include <stdlib.h> // rand, exit
 using namespace std;
 
 // array copy functions copy contents of an array into another array.
@@ -53,6 +53,7 @@ void printBoard(short (&board)[64]){
 
     /* printBoard function prints X for player's blocks,
         O for AI's blocks, and - if block is empty. */
+
     cout << "" << endl;
     cout << "  " << "0 1 2 3 4 5 6 7" << endl;
 
