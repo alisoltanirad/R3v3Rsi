@@ -7,9 +7,9 @@ using namespace std;
 // array copy functions copy contents of an array into another array.
 
 void littlearraycopy(short (&array1)[3], short (&array2)[3]){
-    for (short c=0; c<3; c++){
-        array1[c] = array2[c];
-    }
+    array1[0] = array2[0];
+    array1[1] = array2[1];
+    array1[2] = array2[2];
 }
 
 void arraycopy(short (&array1)[64], short (&array2)[64]){
@@ -616,18 +616,19 @@ short (&getScore(short (&board)[64]))[3]{
     details and final scores. */
 
 void finish(short (&board)[64]){
-    short score[3];
-    littlearraycopy(score, getScore(board));
-    if (score[0] == 1){
+    printBoard(board);
+    short finalscore[3] = {0, 0, 0};
+    littlearraycopy(finalscore, getScore(board));
+    if (finalscore[0] == 1){
         cout << "You Win! :)\n" <<
-                    "You got " << score[1] << " scores," <<
-                    "The opponent got " << score[2] << " scores." << endl;
-    } else if (score[0] == -1){
+                    "You got " << finalscore[1] << " scores," <<
+                    "The opponent got " << finalscore[2] << " scores." << endl;
+    } else if (finalscore[0] == -1){
         cout << "You lose! :(\n" <<
-                    "You got " << score[1] << " scores," <<
-                    "The opponent got " << score[2] << " scores." << endl;
+                    "You got " << finalscore[1] << " scores," <<
+                    "The opponent got " << finalscore[2] << " scores." << endl;
     } else {
-        cout << "Both players got " << score[1] << " scores." << endl;
+        cout << "Both players got " << finalscore[1] << " scores." << endl;
     }
     exit(0);
 }
