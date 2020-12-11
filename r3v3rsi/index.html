@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <title>R3v3Rsi</title>
+    
+    <meta charset="UTF-8">
+    <meta name="author" content="Ali Soltani Rad">
+    <meta name="description" content="online reversi game">
+    <meta name="keywords" content="reversi, othello, online game, ai">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
+    <script src="js/sizzle.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/game.js"></script>
+
+</head>
+
+<body>
+    
+    <div id="header">
+        
+        <div class="headercol"><p></p></div>
+        
+        <div id="headerrow">
+            
+            <div id="headercolleft">
+                <h2>R3v3Rsi</h2>
+                <h4>Online Reversi Game</h4>
+            </div>
+            
+            <div id="headercolright">
+                <p></p><button id="newgame" type="button">New Game</button>
+            </div>
+            
+        </div>
+        
+        <div class="headercol"><p></p></div>
+    
+    </div>
+    
+    <div id="row">
+        
+        <div class="col"><p></p></div>
+
+        <div id="gameboard">
+    
+            <div id="a1" class="pieces"><img id="a1i" alt="0"></div>
+            <div id="a2" class="pieces"><img id="a2i" alt="1"></div>
+            <div id="a3" class="pieces"><img id="a3i" alt="2"></div>
+            <div id="a4" class="pieces"><img id="a4i" alt="3"></div>
+            <div id="a5" class="pieces"><img id="a5i" alt="4"></div>
+            <div id="a6" class="pieces"><img id="a6i" alt="5"></div>
+            <div id="a7" class="pieces"><img id="a7i" alt="6"></div>
+            <div id="a8" class="pieces"><img id="a8i" alt="7"></div>
+
+            <div id="b1" class="pieces"><img id="b1i" alt="8"></div>
+            <div id="b2" class="pieces"><img id="b2i" alt="9"></div>
+            <div id="b3" class="pieces"><img id="b3i" alt="10"></div>
+            <div id="b4" class="pieces"><img id="b4i" alt="11"></div>
+            <div id="b5" class="pieces"><img id="b5i" alt="12"></div>
+            <div id="b6" class="pieces"><img id="b6i" alt="13"></div>
+            <div id="b7" class="pieces"><img id="b7i" alt="14"></div>
+            <div id="b8" class="pieces"><img id="b8i" alt="15"></div>
+
+            <div id="c1" class="pieces"><img id="c1i" alt="16"></div>
+            <div id="c2" class="pieces"><img id="c2i" alt="17"></div>
+            <div id="c3" class="pieces"><img id="c3i" alt="18"></div>
+            <div id="c4" class="pieces"><img id="c4i" alt="19"></div>
+            <div id="c5" class="pieces"><img id="c5i" alt="20"></div>
+            <div id="c6" class="pieces"><img id="c6i" alt="21"></div>
+            <div id="c7" class="pieces"><img id="c7i" alt="22"></div>
+            <div id="c8" class="pieces"><img id="c8i" alt="23"></div>
+
+            <div id="d1" class="pieces"><img id="d1i" alt="24"></div>
+            <div id="d2" class="pieces"><img id="d2i" alt="25"></div>
+            <div id="d3" class="pieces"><img id="d3i" alt="26"></div>
+            <div id="d4" class="pieces"><img id="d4i" alt="27"></div>
+            <div id="d5" class="pieces"><img id="d5i" alt="28"></div>
+            <div id="d6" class="pieces"><img id="d6i" alt="29"></div>
+            <div id="d7" class="pieces"><img id="d7i" alt="30"></div>
+            <div id="d8" class="pieces"><img id="d8i" alt="31"></div>
+
+            <div id="e1" class="pieces"><img id="e1i" alt="32"></div>
+            <div id="e2" class="pieces"><img id="e2i" alt="33"></div>
+            <div id="e3" class="pieces"><img id="e3i" alt="34"></div>
+            <div id="e4" class="pieces"><img id="e4i" alt="35"></div>
+            <div id="e5" class="pieces"><img id="e5i" alt="36"></div>
+            <div id="e6" class="pieces"><img id="e6i" alt="37"></div>
+            <div id="e7" class="pieces"><img id="e7i" alt="38"></div>
+            <div id="e8" class="pieces"><img id="e8i" alt="39"></div>
+
+            <div id="f1" class="pieces"><img id="f1i" alt="40"></div>
+            <div id="f2" class="pieces"><img id="f2i" alt="41"></div>
+            <div id="f3" class="pieces"><img id="f3i" alt="42"></div>
+            <div id="f4" class="pieces"><img id="f4i" alt="43"></div>
+            <div id="f5" class="pieces"><img id="f5i" alt="44"></div>
+            <div id="f6" class="pieces"><img id="f6i" alt="45"></div>
+            <div id="f7" class="pieces"><img id="f7i" alt="46"></div>
+            <div id="f8" class="pieces"><img id="f8i" alt="47"></div>
+
+            <div id="g1" class="pieces"><img id="g1i" alt="48"></div>
+            <div id="g2" class="pieces"><img id="g2i" alt="49"></div>
+            <div id="g3" class="pieces"><img id="g3i" alt="50"></div>
+            <div id="g4" class="pieces"><img id="g4i" alt="51"></div>
+            <div id="g5" class="pieces"><img id="g5i" alt="52"></div>
+            <div id="g6" class="pieces"><img id="g6i" alt="53"></div>
+            <div id="g7" class="pieces"><img id="g7i" alt="54"></div>
+            <div id="g8" class="pieces"><img id="g8i" alt="55"></div>
+
+            <div id="h1" class="pieces"><img id="h1i" alt="56"></div>
+            <div id="h2" class="pieces"><img id="h2i" alt="57"></div>
+            <div id="h3" class="pieces"><img id="h3i" alt="58"></div>
+            <div id="h4" class="pieces"><img id="h4i" alt="59"></div>
+            <div id="h5" class="pieces"><img id="h5i" alt="60"></div>
+            <div id="h6" class="pieces"><img id="h6i" alt="61"></div>
+            <div id="h7" class="pieces"><img id="h7i" alt="62"></div>
+            <div id="h8" class="pieces"><img id="h8i" alt="63"></div>
+    
+        </div>
+        
+        <div class="col"><p></p></div>
+        
+    </div>
+
+</body>
+
+</html>

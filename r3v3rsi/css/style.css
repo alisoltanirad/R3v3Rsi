@@ -1,0 +1,123 @@
+body {
+    background-color: rgb(215,215,215);
+}
+
+#header {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#headerrow {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 40%;
+    position: relative;
+    flex: 40%;
+    -ms-flex: 40%;
+    -webkit-flex: 40%;
+}
+
+.headercol {
+    max-width: 30%;
+    position: relative;
+    flex: 30%;
+    -ms-flex: 30%;
+    -webkit-flex: 30%;
+}
+
+#headercolleft {
+    max-width: 70%;
+    position: relative;
+    flex: 70%;
+    -ms-flex: 70%;
+    -webkit-flex: 70%;
+}
+
+#headercolleft h2 {
+    text-shadow: 1px 2px rgba(0,0,0,0.3);
+}
+
+#headercolleft h4 {
+    text-shadow: 0.5px 1px rgba(0,0,0,0.3);
+}
+
+#headercolright {
+    max-width: 30%;
+    position: relative;
+    flex: 30%;
+    -ms-flex: 30%;
+    -webkit-flex: 30%;
+}
+
+#newgame {
+    padding: 10px 8px;
+    background-color: greenyellow;
+    font-size: 16px;
+    border: 1px solid gray;
+    border-radius: 3px;
+    box-shadow: 1px 2px gray;
+    cursor: pointer;
+}
+
+#newgame:hover {
+    border: 1px solid black;
+    box-shadow: 2px 3px gray;
+}
+
+#row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col {
+    max-width: 30%;
+    position: relative;
+    flex: 30%;
+    -ms-flex: 30%;
+    -webkit-flex: 30%;
+}
+
+#gameboard {
+    max-width: 40%;
+    position: relative;
+    flex: 40%;
+    -ms-flex: 40%;
+    -webkit-flex: 40%;
+    display: flex;
+    flex-wrap: wrap;
+    border: 4px solid black;
+    border-radius: 4px;
+    background-color: black;
+    box-shadow: 1px 1px 5px gray, -1px 1px 5px gray, -1px -1px 5px gray, 1px -1px 5px gray;
+}
+
+.pieces {
+    max-width: 12.5%;
+    position: relative;
+    flex: 12.5%;
+    -ms-flex: 12.5%;
+    -webkit-flex: 12.5%;
+}
+
+.pieces img {
+    max-width: 100%;
+    height: auto;
+}
+
+.empty {
+    content: url("../pics/empty.jpg");
+}
+
+.black {
+    content: url("../pics/black.jpg");
+}
+
+.white {
+    content: url("../pics/white.jpg");
+}
+
+.valid {
+    content: url("../pics/valid.jpg");
+    cursor: pointer;
+}
