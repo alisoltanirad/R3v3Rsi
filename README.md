@@ -1,2 +1,7 @@
-<b>R3v3Rsi</b> is an open source project under MIT licence by Ali Soltani Rad. <br/><br/>
-it's an implementation of <i>reversi</i> game using javascript programming language and jquery library. 
+# R3v3rsi
+
+*R3v3Rsi* is an open source web game project. It's an implementation of the classic *reversi* game using JavaScript programming language.
+
+### Dependencies
+
+* [jQuery](https://jquery.com)
