@@ -27,7 +27,10 @@ $(document).ready(function(){
     }
     
     function northeast(board, position, color){
-        var limit = Math.min((Math.floor(position/8)+1),(((Math.floor(position/8)+1)*8)-position));
+        var limit = Math.min(
+            (Math.floor(position / 8) + 1),
+            (((Math.floor(position / 8) + 1) * 8) - position)
+        );
         if ((limit > 2) && (board[position - 7] == (-color))){
             var j = (position - 7);
             for (var k=2; k<limit; k++){
@@ -57,7 +60,10 @@ $(document).ready(function(){
     }
     
     function southeast(board, position, color){
-        var limit = Math.min((Math.floor(63-position)+1),(((Math.floor(position/8)+1)*8)-position));
+        var limit = Math.min(
+            (Math.floor(63 - position) + 1), 
+            (((Math.floor(position / 8) + 1) * 8) - position)
+        );
         if ((limit > 2) && (board[position + 9] == (-color))){
             var j = (position + 9);
             for (var k=2; k<limit; k++){
@@ -86,7 +92,9 @@ $(document).ready(function(){
     }
     
     function southwest(board, position, color){
-        var limit = Math.min((Math.floor((63-position)/8)+1),((position%8)+1));
+        var limit = Math.min(
+            (Math.floor((63 - position) / 8) + 1), ((position % 8) + 1)
+        );
         if ((limit > 2) && (board[position + 7] == (-color))){
             var j = (position + 7);
             for (var k=2; k<limit; k++){
@@ -116,7 +124,9 @@ $(document).ready(function(){
     }
     
     function northwest(board, position, color){
-        var limit = Math.min((Math.floor(position/8)+1),((position%8)+1));
+        var limit = Math.min(
+            (Math.floor(position / 8) + 1), ((position % 8) + 1)
+        );
         if ((limit > 2) && (board[position - 9] == (-color))){
             var j = (position - 9);
             for (var k=2; k<limit; k++){
@@ -184,7 +194,7 @@ $(document).ready(function(){
     }
     
     /* makeMove function makes moves in possible directions.
-        also changes CSS classes using changeColor function.*/
+    also changes CSS classes using changeColor function.*/
     
     function makeMove(board, move, color){
         if (color == -1){
@@ -373,7 +383,9 @@ $(document).ready(function(){
                 // when game ends in the branch
                 return (getSum(tempboard) * color);
             }
-            var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+            var value = -NegaMax(
+                tempboard, depth-1, -color, -alpha, -beta
+            );
             if (value >= beta){
                 return value;
             }
@@ -385,7 +397,9 @@ $(document).ready(function(){
                 var tempboard2 = [];
                 tempboard2 = boardArrayCopy(tempboard2, tempboard);
                 AImakeMove(tempboard2, moves[i], color);
-                var value = -NegaMax(tempboard2, depth-1, -color, -alpha, -beta);
+                var value = -NegaMax(
+                    tempboard2, depth-1, -color, -alpha, -beta
+                );
                 tempboard2 = boardArrayCopy(tempboard2, tempboard);
                 if (value >= beta){
                     return value;
@@ -425,7 +439,9 @@ $(document).ready(function(){
             var tempboard = [];
             tempboard = boardArrayCopy(tempboard, board);
             AImakeMove(tempboard, AImoves[i], color);
-            var value = -NegaMax(tempboard, depth-1, -color, -alpha, -beta);
+            var value = -NegaMax(
+                tempboard, depth-1, -color, -alpha, -beta
+            );
             tempboard = boardArrayCopy(tempboard, board);
             if (value >= beta){
                 return AImoves[i];
@@ -467,7 +483,7 @@ $(document).ready(function(){
     }
     
     /* finish function is called when game ends. shows 
-        details and final scores. */
+    details and final scores. */
     
     function finish(){
         var score = getScore(board);
@@ -499,7 +515,7 @@ $(document).ready(function(){
     }
     
     /* Play is the main function of the game.
-        AI make moves in this function. */
+    AI make moves in this function. */
     
     function play(){
         
@@ -578,7 +594,7 @@ $(document).ready(function(){
     
     var move = -1;
     
-    // jQuery function to get player's move.
+    // Get player's move.
     
     $("img").click(function(){
         if ($(this).attr("class") == "valid"){
@@ -588,7 +604,7 @@ $(document).ready(function(){
         }
     });
     
-    // jQuery function to start over the game.
+    // Start a new game.
     
     $("#newgame").click(function(){
        location.reload(); 
